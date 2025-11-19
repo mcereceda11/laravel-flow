@@ -73,12 +73,26 @@ class Flow {
         return $params;
     }
 
-    /**
-     * Hace la llamada a flow para crear la orden y obtener la url de pago
-     *
-     * @param string $params Parametros firmados
-     *
-     */
+		public function createNewClient($name, $email, $userId){
+			$params = array(
+						"apiKey" => $this->api_key,
+						"name" => $name,
+						"email" =>  $email,
+						"externalId" => $userId
+				);
+
+				$params["s"] = $this->signParams($params);
+				return $params;
+		}
+
+    // Llamadas a apis de Flow
+		public function createClient($signedParams) {
+				$url = config('flow.base_url') . '/customer/create';
+				$response = $this->httpPost($url, $signedParams);
+				$data = json_decode($response["output"], true);
+				return $data;
+		}
+		
     public function createFlowOrder($signedParams) {
         $url = config('flow.base_url') . '/payment/create';
         $response = $this->httpPost($url, $signedParams);
