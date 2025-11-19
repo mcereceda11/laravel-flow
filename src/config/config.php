@@ -61,6 +61,7 @@ return [
     */
 
     'url_retorno' => ['url' => '/'],
+		'url_credit_card_return' => ['route' => 'flow.credit_card_return'],
 
     /*
     |--------------------------------------------------------------------------

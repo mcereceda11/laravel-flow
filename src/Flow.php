@@ -75,20 +75,35 @@ class Flow {
 
 		public function createNewClient($name, $email, $userId){
 			$params = array(
-						"apiKey" => $this->api_key,
-						"name" => $name,
-						"email" =>  $email,
-						"externalId" => $userId
-				);
+					"apiKey" => $this->api_key,
+					"name" => $name,
+					"email" =>  $email,
+					"externalId" => $userId
+			);
 
-				$params["s"] = $this->signParams($params);
-				return $params;
+			$params["s"] = $this->signParams($params);
+			return $params;
 		}
 
     // Llamadas a apis de Flow
 		public function createClient($signedParams) {
 				$url = config('flow.base_url') . '/customer/create';
 				$response = $this->httpPost($url, $signedParams);
+				$data = json_decode($response["output"], true);
+				return $data;
+		}
+
+		public function creditCardRegister($customerId){
+				$url = config('flow.base_url') . '/customer/getByExternalId';
+
+				$params = array(
+						"apiKey" => $this->api_key,
+						"customerId" => $customerId,
+						"url_return" => $this->generarUrl(config('flow.url_credit_card_return'))
+				);
+
+				$params["s"] = $this->signParams($params);
+				$response = $this->httpGet($url, $params);        
 				$data = json_decode($response["output"], true);
 				return $data;
 		}
