@@ -103,7 +103,7 @@ class Flow {
 				);
 
 				$params["s"] = $this->signParams($params);
-				$response = $this->httpGet($url, $params);        
+				$response = $this->httpPost($url, $params);        
 				$data = json_decode($response["output"], true);
 				return $data;
 		}
