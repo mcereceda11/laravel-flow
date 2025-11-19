@@ -94,7 +94,7 @@ class Flow {
 		}
 
 		public function creditCardRegister($customerId){
-				$url = config('flow.base_url') . '/customer/getByExternalId';
+				$url = config('flow.base_url') . '/customer/register';
 
 				$params = array(
 						"apiKey" => $this->api_key,
