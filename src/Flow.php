@@ -107,6 +107,20 @@ class Flow {
 				$data = json_decode($response["output"], true);
 				return $data;
 		}
+
+		public function creditCardRegisterStatus($token){
+				$url = config('flow.base_url') . '/customer/getRegisterStatus';
+
+				$params = array(
+						"apiKey" => $this->api_key,
+						"token" => $token
+				);
+
+				$params["s"] = $this->signParams($params);
+				$response = $this->httpGet($url, $params);        
+				$data = json_decode($response["output"], true);
+				return $data;
+		}
 		
     public function createFlowOrder($signedParams) {
         $url = config('flow.base_url') . '/payment/create';
