@@ -121,6 +121,23 @@ class Flow {
 				$data = json_decode($response["output"], true);
 				return $data;
 		}
+
+		public function autoChargeClient($customerId, $amount, $subject, $commerceOrder) {
+				$url = config('flow.base_url') . '/customer/charge';
+
+				$params = array(
+						"apiKey" => $this->api_key,
+						"customerId" => $customerId,
+						"amount" => $amount,
+						"subject" => $subject,
+						"commerceOrder" => $commerceOrder
+				);
+
+				$params["s"] = $this->signParams($params);
+				$response = $this->httpPost($url, $params);
+				$data = json_decode($response["output"], true);
+				return $data;
+		}
 		
     public function createFlowOrder($signedParams) {
         $url = config('flow.base_url') . '/payment/create';
